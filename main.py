@@ -2,6 +2,7 @@ import streamlit as st
 import folium
 from streamlit_folium import folium_static
 import pandas as pd
+import os
 
 # Load the scenic drives data
 @st.cache_data
@@ -21,10 +22,11 @@ def create_map(data):
         ).add_to(m)
         
         # Add custom marker at the start of each route
+        icon_path = os.path.join(os.path.dirname(__file__), 'assets', 'car_icon.svg')
         folium.Marker(
             eval(row['coordinates'])[0],
-            icon=folium.CustomIcon(icon_image='assets/car_icon.svg', icon_size=(30, 30)),
-            popup=f"<b>{row['name']}</b><br>Length: {row['length']} miles<br>Est. Time: {row['estimated_time']}",
+            icon=folium.CustomIcon(icon_image=icon_path, icon_size=(30, 30)),
+            popup=folium.Popup(f"<div style='background-color: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px;'><b>{row['name']}</b><br>Length: {row['length']} miles<br>Est. Time: {row['estimated_time']}</div>", max_width=300),
         ).add_to(m)
     
     return m
