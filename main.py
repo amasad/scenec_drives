@@ -23,9 +23,10 @@ def create_map(data):
         
         # Add custom marker at the start of each route
         icon_path = os.path.join(os.path.dirname(__file__), 'assets', 'car_icon.svg')
+        custom_icon = folium.CustomIcon(icon_image=icon_path, icon_size=(30, 30))
         folium.Marker(
             eval(row['coordinates'])[0],
-            icon=folium.CustomIcon(icon_image=icon_path, icon_size=(30, 30)),
+            icon=custom_icon,
             popup=folium.Popup(f"<div style='background-color: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px;'><b>{row['name']}</b><br>Length: {row['length']} miles<br>Est. Time: {row['estimated_time']}</div>", max_width=300),
         ).add_to(m)
     
